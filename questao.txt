@@ -1,0 +1,24 @@
+JOGADORES:
+nome, data de nascimento, gênero e altura
+
+ESTADIO:
+nome e endereço
+
+PARTIDA:
+mandante e visitante
+
+SISTEMA: 
+listar as partidas já ocorridas e não ocorridas de um campeonato
+listar a tabela do campeonato, ordenando os times por classificação
+
+
+MENU:
+
+Cadastro de Campeonato;
+Cadastro de Time;
+Cadastro de Estádio;
+Cadastro de Jogadores de um determinado time;
+Cadastrar partida entre dois time;
+Listar Partidas;
+Listar classificação;
+Sair;
