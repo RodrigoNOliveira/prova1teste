@@ -5,11 +5,13 @@ public class Campeonato {
     private String nome;
     private int qtdPtds;
     private int anoCamp;
-    private ArrayList<Partidas> listPartidas;
-    private ArrayList<PartidasJogadas> listJogadas;
-    // private ArrayList<Time> listTime;
+    protected ArrayList<Partidas> listPartidas;
+    protected ArrayList<PartidasJogadas> listJogadas;
     private String vencedor;
+    private Time tim;
+    private int qtdGols = 0;
 
+    
     public Campeonato(String nome, int anoCamp) {
         this.qtdPtds = 0;
         this.nome = nome;
@@ -34,6 +36,10 @@ public class Campeonato {
     }
 
 
+    public void addGols (int gols){
+        qtdGols += tim.getQtdGols();
+        this.tim.setQtdGols(qtdGols);
+    }
 
     public void geraListaPtds() {
         StringBuilder msg = new StringBuilder();
@@ -50,18 +56,19 @@ public class Campeonato {
         System.out.println(msg.toString());
     }
 
+    
     public void geraListaJogadas() {
         StringBuilder msg = new StringBuilder();
         msg.append("\n ------- Lista de partidas Jogadas --------\n");
         msg.append("\nCampeonato: " + this.nome + " ----------- Ano de: " + this.anoCamp);
-        msg.append("\n\nMandante --- Placar  --- Visitante ------- Vencedor\n\n");
+        msg.append("\n\nMandante --- Placar  --- Visitante ------- Vencedor ------- Estadio\n\n");
         for (int i = 0; i < listJogadas.size(); i++) {
             if (listJogadas.get(i) != null) {
 
                 msg.append(
                         "\n" + listJogadas.get(i).getMandante() + " -------- " + listJogadas.get(i).getGolsMandante() + " x "
                                 + listJogadas.get(i).getGolsVisitante() + " -------- " + listJogadas.get(i).getVisitante() 
-                                + " -------- " + listJogadas.get(i).getVencedor());
+                                + " -------- " + listJogadas.get(i).getVencedor() + " -------- " + listPartidas.get(i).getEstJgd());
                 
             }
 

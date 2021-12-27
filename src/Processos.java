@@ -12,11 +12,17 @@ public class Processos {
     private ArrayList<Time> listTime;
     private ArrayList<Estadio> listEstadio;
     private ArrayList<Jogadores> listJgdrs;
-    private ArrayList<Partidas> listPartidas;
-    private ArrayList<PartidasJogadas> listPtdJgds;
+    protected ArrayList<Partidas> listPartidas;
+    protected ArrayList<PartidasJogadas> listPtdJgds;
     private int totalPtds;
-    // private Partidas partidas;
-    // private Time tim;
+    private Campeonato camp;
+    private Partidas ptds;
+    private Time tim;
+    private Jogadores jogadores;
+    private PartidasJogadas ptdsJgds;
+    protected int gols;
+
+    
 
     public Processos() {
         this.totalPtds = 0;
@@ -26,108 +32,133 @@ public class Processos {
         this.listJgdrs = new ArrayList<Jogadores>();
         this.listPartidas = new ArrayList<Partidas>();
         this.listPtdJgds = new ArrayList<PartidasJogadas>();
+        // this.camp = camp;
         // this.partidas = partidas;
     }
 
     public void cadastrarCampeonato() {
-        scanner.nextLine();
-        System.out.println("Digite o nome do campeonato: ");
+        // scanner.nextLine();
+        System.out.print("Digite o nome do campeonato: ");
         String nome = scanner.nextLine();
-        System.out.println("Digite o ano do campeonato: ");
+        // scanner.nextLine();
+        System.out.print("Digite o ano do campeonato: ");
         int ano = scanner.nextInt();
+        scanner.nextLine();
         Campeonato camp = new Campeonato(nome, ano);
         this.listCamp.add(camp);
     }
 
     public void cadastrarTime() {
         scanner.nextLine();
-        System.out.println("Digite o nome do time: ");
+        System.out.print("Digite o nome do time: ");
         String nome = scanner.nextLine();
+        scanner.nextLine();
         Time tim = new Time(nome);
         this.listTime.add(tim);
 
     }
 
     public void cadastrarEstadio() {
+        System.out.print("Digite o nome do time: ");
+        String nome = this.scanner.nextLine();
         scanner.nextLine();
-        System.out.println("Digite o nome do estádio: ");
-        String nome = scanner.nextLine();
-        scanner.nextLine();
-        System.out.println("Digite o endereço do estádio: ");
-        String endereco = scanner.nextLine();
-        scanner.nextLine();
-        Estadio estd = new Estadio(nome, endereco);
-        // tim.estadio(estd);
-        this.listEstadio.add(estd);
+        tim = this.buscarTime(nome);
+        if (tim != null) {
+            scanner.nextLine();
+            System.out.print("Digite o nome do estádio: ");
+            nome = scanner.nextLine();
+            scanner.nextLine();
+            System.out.print("Digite o endereço do estádio: ");
+            String endereco = scanner.nextLine();
+            scanner.nextLine();
+            Estadio estd = new Estadio(nome, endereco);
+            this.listEstadio.add(estd);
+            tim.adicionarEstadio(estd);
+        } else {
+            System.out.println("Time não encontrado!");
+        }
 
     }
 
     public void cadastrarJogadores() throws ParseException {
-        System.out.println("Digite o nome do jogador:");
-        String nome = scanner.nextLine();
+        System.out.print("Digite o nome do time: ");
+        String nome = this.scanner.nextLine();
         scanner.nextLine();
-        System.out.println("Digite sua data de nascimento: (xx/xx/xxxx)");
+        tim = this.buscarTime(nome);
+        if (tim != null) {
+            System.out.print("Digite o nome do jogador:");
+            nome = scanner.nextLine();
+            scanner.nextLine();
+            System.out.print("Digite sua data de nascimento(xx/xx/xxxx): ");
 
-        String data = scanner.nextLine();
-        try {
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-            Date nascimento = df.parse(data);
-            scanner.nextLine();
-            System.out.println("Digite seu gênero: ");
-            String genero = scanner.nextLine();
-            scanner.nextLine();
-            System.out.println("Digite sua altura:");
-            float altura = scanner.nextFloat();
-            scanner.nextLine();
-            Jogadores jdrs = new Jogadores(nome, nascimento, genero, altura);
-            this.listJgdrs.add(jdrs);
-        } catch (ParseException exc) {
-            System.out.println("data informada em formato errado!");
+            String data = scanner.nextLine();
+            try {
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                Date nascimento = df.parse(data);
+                scanner.nextLine();
+                System.out.print("Digite seu gênero: ");
+                String genero = scanner.nextLine();
+                scanner.nextLine();
+                System.out.print("Digite sua altura:");
+                float altura = scanner.nextFloat();
+                scanner.nextLine();
+                Jogadores jogadores = new Jogadores(nome, nascimento, genero, altura);
+
+                tim.adicionarJogador(jogadores);
+            } catch (ParseException exc) {
+                System.out.println("data informada em formato errado!");
+            }
+
+        } else {
+            System.out.println("Time não encontrado!");
         }
-
     }
 
     public void cadastrarPartida() {
         String mandante = " ";
         String visitante = " ";
-        String capMdt = " ";
-        String capVisit = " ";
-        Campeonato camp;
+        String estdJgd ;
+        // Campeonato camp;
 
-        System.out.println("Digite o nome do campeonato: ");
+        System.out.print("Digite o nome do campeonato: ");
         String nome = this.scanner.nextLine();
         scanner.nextLine();
         camp = this.buscarCamp(nome);
         if (camp != null) {
 
-            System.out.println("Digite o nome do time mandante: ");
+            System.out.print("Digite o nome do time mandante: ");
             nome = this.scanner.nextLine();
             scanner.nextLine();
 
-            Time tim = this.buscarTime(nome);
+            tim = this.buscarTime(nome);
             if (tim != null) {
+                if (tim.vetorEstadio[0] != null){
+                    estdJgd = tim.vetorEstadio[0].getNome();
+                }
+                else {
+                     estdJgd = "Estádio não cadastrado";}
                 mandante = nome;
-                System.out.println("Digite o jogador capitão do time mandante: ");
+                System.out.print("Digite o jogador capitão do time mandante: ");
                 nome = scanner.nextLine();
                 scanner.nextLine();
-                Jogadores jgdrs = this.buscarJogadores(nome);
-                if (jgdrs != null) {
-                    capMdt = nome;
-                    System.out.println("Digite o nome do time visitante: ");
+                jogadores = buscarJogadores(nome);
+                if (jogadores != null) {
+                    tim.capitao(jogadores);
+                    System.out.print("Digite o nome do time visitante: ");
                     nome = this.scanner.nextLine();
                     scanner.nextLine();
                     tim = this.buscarTime(nome);
                     if (tim != null) {
                         visitante = nome;
-                        System.out.println("Digite o jogador capitão do time visitante: ");
+                        System.out.print("Digite o jogador capitão do time visitante: ");
                         nome = scanner.nextLine();
                         scanner.nextLine();
-                        jgdrs = this.buscarJogadores(nome);
-                        if (jgdrs != null) {
+                        jogadores = this.buscarJogadores(nome);
+                        if (jogadores != null) {
 
-                            capVisit = nome;
-                            Partidas ptdsJgds = new Partidas(totalPtds + 1, mandante, visitante, capMdt, capVisit);
-                            camp.addPtd(ptdsJgds);
+                            tim.capitao(jogadores);
+                            Partidas ptds = new Partidas(totalPtds + 1, mandante, visitante, estdJgd);
+                            camp.addPtd(ptds);
                             this.totalPtds++;
 
                         } else {
@@ -143,7 +174,7 @@ public class Processos {
                 System.out.println("Time não encotrado");
             }
         } else {
-            System.out.println("Time não encontrado!");
+            System.out.println("Campeonato não encontrado!");
         }
 
         /*
@@ -157,29 +188,48 @@ public class Processos {
         String visitante = " ";
         int golsMandante = 0;
         int golsVisitante = 0;
-        Campeonato camp;
+        // Campeonato camp;
         String vencedor = " ";
-        Partidas ptds;
+        // Partidas ptds;
 
-        System.out.println("Digite o nome do campeonato: ");
+        System.out.print("Digite o nome do campeonato: ");
         String nome = this.scanner.nextLine();
         scanner.nextLine();
         camp = this.buscarCamp(nome);
         if (camp != null) {
             geraListaPartida();
-            System.out.println("Digite o numero da partida: ");
+            System.out.print("Digite o numero da partida: ");
             int id = this.scanner.nextInt();
             ptds = this.buscarPtds(id);
             scanner.nextLine();
             if (ptds != null) {
-                System.out.println("Digite os gols que o time mandante fez: ");
-                golsMandante = scanner.nextInt();
-                scanner.nextLine();
-                System.out.println("Digite os gols que o time visitante fez: ");
+                mandante = ptds.getMandante();
+                System.out.print("Digite os gols que o time mandante fez: ");
+                tim = buscarTime(mandante);
+                if ( tim != null){
+                golsMandante  = scanner.nextInt();
+                tim.somarGols(golsMandante);               
+                scanner.nextLine();}
+                
+                
+                  visitante = ptds.getVisitante();
+                System.out.print("Digite os gols que o time visitante fez: ");
+                tim = buscarTime(visitante);
+
+                if ( tim != null){            
                 golsVisitante = scanner.nextInt();
+                tim.somarGols(golsVisitante);
+                 }
+            
+                
+                
+                
                 scanner.nextLine();
+                
+                //tim.addGols(golsVisitante);
                 if (golsMandante > golsVisitante) {
                     vencedor = mandante;
+
                 } else if (golsMandante < golsVisitante) {
                     vencedor = visitante;
                 } else {
@@ -196,62 +246,13 @@ public class Processos {
         }
     }
 
-    /*
-     * System.out.println("Digite o nome do campeonato: ");
-     * String nome = this.scanner.nextLine();
-     * scanner.nextLine();
-     * camp = this.buscarCamp(nome);
-     * if (camp != null) {
-     * 
-     * 
-     * System.out.println("Digite o nome do time mandante: ");
-     * nome = this.scanner.nextLine();
-     * scanner.nextLine();
-     * 
-     * Time tim = this.buscarTime(nome);
-     * if (tim != null) {
-     * 
-     * mandante = nome;
-     * System.out.println("Digite os gols que o time mandante fez: ");
-     * golsMandante = scanner.nextInt();
-     * scanner.nextLine();
-     * System.out.println("Digite o nome do time visitante: ");
-     * nome = this.scanner.nextLine();
-     * scanner.nextLine();
-     * tim = this.buscarTime(nome);
-     * if (tim != null) {
-     * visitante = nome;
-     * System.out.println("Digite os gols que o time visitante fez: ");
-     * golsVisitante = scanner.nextInt();
-     * scanner.nextLine();
-     * 
-     * if ( golsMandante > golsVisitante){
-     * vencedor = mandante;
-     * } else if (golsMandante < golsVisitante){
-     * vencedor = visitante;
-     * } else {
-     * vencedor = "empate";
-     * }
-     * 
-     * 
-     * 
-     * PartidasJogadas ptdsJgds = new PartidasJogadas(mandante, visitante,
-     * golsMandante,
-     * golsVisitante, vencedor);
-     * camp.addPtdJgds(ptdsJgds);
-     * 
-     * } else {
-     * System.out.println("Time não encontrado");
-     * }
-     * } else {
-     * System.out.println("Time não encontrado");
-     * }
-     * } else {
-     * System.out.println("Campeonato não encontrado!");
-     * }
-     * 
-     * }
-     */
+    public int getGols() {
+        return gols;
+    }
+
+    public void setGols(int gols) {
+        this.gols = gols;
+    }
 
     public Campeonato buscarCamp(String nome) {
         for (int i = 0; i < this.listCamp.size(); i++) {
@@ -264,20 +265,20 @@ public class Processos {
     }
 
     public Jogadores buscarJogadores(String nome) {
-        for (int i = 0; i < this.listJgdrs.size(); i++) {
-            if (this.listJgdrs.get(i).getNome().equalsIgnoreCase(nome)) {
-                return this.listJgdrs.get(i);
+        for (int i = 0; i < tim.listJogadores.size(); i++) {
+            if (tim.listJogadores.get(i).getNome().equalsIgnoreCase(nome)) {
+                return tim.listJogadores.get(i);
             }
         }
         return null;
     }
 
     public Partidas buscarPtds(int id) {
-        for (int i = 0; i < this.listPartidas.size(); i++) {
+        for (int i = 0; i < camp.listPartidas.size(); i++) {
 
-            if (this.listPartidas.size() == id - 1) {
+            if (camp.listPartidas.get(i).getId() == id) {
 
-                return this.listPartidas.get(i);
+                return camp.listPartidas.get(i);
 
             }
         }
@@ -295,10 +296,10 @@ public class Processos {
     }
 
     public void geraListaPartida() {
-        System.out.println("Digite o nome do campeonato: ");
+        System.out.print("Digite o nome do campeonato: ");
         String nome = scanner.nextLine();
         scanner.nextLine();
-        Campeonato camp = this.buscarCamp(nome);
+        camp = this.buscarCamp(nome);
         if (camp != null) {
             camp.geraListaPtds();
         } else {
@@ -307,10 +308,10 @@ public class Processos {
     }
 
     public void geraListaJogadas() {
-        System.out.println("Digite o nome do campeonato: ");
+        System.out.print("Digite o nome do campeonato: ");
         String nome = scanner.nextLine();
         scanner.nextLine();
-        Campeonato camp = this.buscarCamp(nome);
+        camp = this.buscarCamp(nome);
         if (camp != null) {
             camp.geraListaJogadas();
         } else {
@@ -319,10 +320,10 @@ public class Processos {
     }
 
     public void geraListaClassificacao() {
-        System.out.println("Digite o nome do campeonato: ");
+        System.out.print("Digite o nome do campeonato: ");
         String nome = scanner.nextLine();
         scanner.nextLine();
-        Campeonato camp = this.buscarCamp(nome);
+        camp = this.buscarCamp(nome);
         if (camp != null) {
             camp.geraListaPtds();
         } else {
@@ -330,6 +331,57 @@ public class Processos {
         }
     }
 
+    public void geraInfo() {
+        System.out.print("Digite o nome do time: ");
+        String nome = scanner.nextLine();
+        scanner.nextLine();
+        tim = this.buscarTime(nome);
+        if (tim != null) {
+            tim.geraInfo();
+        } else {
+            System.out.println("Time não encontrado!");
+        }
+
+    }
+    public Campeonato getCamp() {
+        return camp;
+    }
+
+    public void setCamp(Campeonato camp) {
+        this.camp = camp;
+    }
+
+    public Partidas getPtds() {
+        return ptds;
+    }
+
+    public void setPtds(Partidas ptds) {
+        this.ptds = ptds;
+    }
+
+    public Time getTim() {
+        return tim;
+    }
+
+    public void setTim(Time tim) {
+        this.tim = tim;
+    }
+
+    public Jogadores getJogadores() {
+        return jogadores;
+    }
+
+    public void setJogadores(Jogadores jogadores) {
+        this.jogadores = jogadores;
+    }
+
+    public PartidasJogadas getPtdsJgds() {
+        return ptdsJgds;
+    }
+
+    public void setPtdsJgds(PartidasJogadas ptdsJgds) {
+        this.ptdsJgds = ptdsJgds;
+    }
     public ArrayList<Campeonato> getListCamp() {
         return listCamp;
     }

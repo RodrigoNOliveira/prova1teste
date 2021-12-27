@@ -1,10 +1,10 @@
 public class PartidasJogadas {
     private String mandante;
     private String visitante;
-    private Estadio estadioMdt;
     private int golsMandante;
     private int golsVisitante;
     private String vencedor;
+    //private Estadio estadio;
 
     public PartidasJogadas(String mandante, String visitante, int golsMandante, int golsVisitante, String vencedor) {
         this.mandante = mandante;
@@ -12,6 +12,7 @@ public class PartidasJogadas {
         this.golsMandante = golsMandante;
         this.golsVisitante = golsVisitante;
         this.vencedor = vencedor;
+        
     }
 
 
@@ -43,17 +44,6 @@ public class PartidasJogadas {
     public void setVisitante(String visitante) {
         this.visitante = visitante;
     }
-
-    
-    public Estadio getEstadioMdt() {
-        return estadioMdt;
-    }
-
-    
-    public void setEstadioMdt(Estadio estadioMdt) {
-        this.estadioMdt = estadioMdt;
-    }
-
  
     public int getGolsMandante() {
         return golsMandante;

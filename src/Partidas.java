@@ -1,38 +1,33 @@
-
 public class Partidas {
     private String mandante;
     private String visitante;
-    private String capMdt;
-    private String capVisit;
     private int id;
+    private String estJgd;
+    //private Time tim;
 
 
 
-    public Partidas( int id, String mandante, String visitante, String capMdt,
-            String capVisit) {
+    public Partidas( int id, String mandante, String visitante, String estJgd ) {
         this.id = id;
         this.mandante = mandante;
         this.visitante = visitante;
-        this.capMdt = capMdt;
-        this.capVisit = capVisit;
+        this.estJgd = estJgd;
     }
   
+    /*public void estdJgds(){
+        if (tim.getNome().equals(mandante)){
+            String estdJgd = tim.getEstadio().getNome();
+        }
+    }*/
 
-    public String getCapMdt() {
-        return capMdt;
+    public String getEstJgd() {
+        return estJgd;
     }
 
-    public void setCapMdt(String capMdt) {
-        this.capMdt = capMdt;
+    public void setEstJgd(String estJgd) {
+        this.estJgd = estJgd;
     }
 
-    public String getCapVisit() {
-        return capVisit;
-    }
-
-    public void setCapVisit(String capVisit) {
-        this.capVisit = capVisit;
-    }
     /**
      * @return String return the mandante
      */

@@ -13,7 +13,6 @@ public class Principal {
     public void iniciar() throws ParseException {
 
         int opcao = 0;
-        String nome = "";
         do {
             System.out.println(" --- Menu ---");
             System.out.println("1 - Cadatrar Campeonato");
@@ -25,50 +24,29 @@ public class Principal {
             System.out.println("7 - Lista de partidas");
             System.out.println("8 - Lista de partidas jogadas");
             System.out.println("9- Lista de classificação");
+            System.out.println("10- Informações do time");
             System.out.println("0- Sair");
             System.out.print("Digite a opcao: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
             switch (opcao) {
                 case 1:
+                
                     this.processosSi.cadastrarCampeonato();
                     break;
 
                 case 2:
-                    System.out.println("Digite o nome do campeonato: ");
-                    nome = this.scanner.nextLine();
-                    scanner.nextLine();
-                    Campeonato camp = this.processosSi.buscarCamp(nome);
-                    if (camp != null) {
                         this.processosSi.cadastrarTime();
-                    } else {
-                        System.out.println("Campeonato não encontrado!");
-                    }
                     break;
 
                 case 3:
-                    System.out.println("Digite o nome do time: ");
-                    nome = this.scanner.nextLine();
-                    scanner.nextLine();
-                    Time tim = this.processosSi.buscarTime(nome);
-                    if (tim != null) {
                         this.processosSi.cadastrarEstadio();
-                    } else {
-                        System.out.println("Time não encontrado!");
-                    }
                     break;
 
                 case 4:
-
-                    System.out.println("Digite o nome do time: ");
-                    nome = this.scanner.nextLine();
-                    scanner.nextLine();
-                    tim = this.processosSi.buscarTime(nome);
-                    if (tim != null) {
-                        this.processosSi.cadastrarJogadores();
-                    } else {
-                        System.out.println("Time não encontrado!");
-                    }
+                    
+                this.processosSi.cadastrarJogadores();
+                    
 
                     break;
 
@@ -91,6 +69,10 @@ public class Principal {
                     break;
                 case 9:
                     this.processosSi.geraListaClassificacao();
+                    break;
+
+                case 10:
+                    this.processosSi.geraInfo();
                     break;
                 case 0:
                     System.out.println("Programa encerrado!");
