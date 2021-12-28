@@ -3,14 +3,15 @@ import java.util.ArrayList;
 public class Time {
     private String nome;
     private Estadio estadio;
-    private int vitorias;
-    private int qtdGols;
+    protected int vitorias;
+    protected int qtdGols;
     protected ArrayList<Jogadores> listJogadores;
     protected Estadio[] vetorEstadio;
     //protected int[] vetGols ;
     private Jogadores capt;
     private int qtdEst;
     protected ArrayList<Integer> listGols;
+    protected ArrayList<Integer> listVtr;
 
     public Time(String nome){
         this.nome = nome;
@@ -20,7 +21,19 @@ public class Time {
         this.vitorias = 0;
         this.qtdGols = 0;
         this.listGols = new ArrayList<Integer>();
+        this.listVtr = new ArrayList<Integer>();
          
+    }
+
+   
+
+    public ArrayList<Integer> getListVtr() {
+        return listVtr;
+    }
+
+
+    public void setListVtr(ArrayList<Integer> listVtr) {
+        this.listVtr = listVtr;
     }
 
 
@@ -35,14 +48,10 @@ public class Time {
         this.listGols.add(gol);
         
     }
-
- 
-    /*public Time(String nome,int vitorias, int gols){
-        this.nome = nome;
-        this.vitorias = 0;
-
-    }*/
-
+    public void somarVitorias(int vitoria){
+        this.listVtr.add(vitoria);
+        
+    }
 
 
     public ArrayList<Jogadores> getListJogadores() {
@@ -64,10 +73,6 @@ public class Time {
         
     }
 
-    public void addVit(Time tim) { 
-            this.vitorias +=1;
-
-        }
 
     public void capitao(Jogadores c){
         this.capt = c;
@@ -84,12 +89,25 @@ public class Time {
             
             
             msg.append("\n\nGols  do time: ");
+            qtdGols = 0;
             for (int i = 0; i < listGols.size(); i++) {
+            qtdGols = 0; 
                 if (listGols.get(i) != null){
-                    qtdGols += listGols.get(i);
+                    qtdGols = qtdGols + listGols.get(i);
                 }
             
-            }msg.append(qtdGols);
+            } msg.append(qtdGols);
+            
+            msg.append("\n\nVitorias  do time: ");
+            vitorias = 0;
+            for (int i = 0; i < listVtr.size(); i++) {
+              
+                if (listVtr.get(i) != null){
+                    vitorias = vitorias + listVtr.get(i);
+                }
+            
+            }msg.append(vitorias);
+            vitorias = 0;
             msg.append("\n\nJogadores:");
             for (int i = 0; i < listJogadores.size(); i++) {
                 if (listJogadores.get(i) != null) {
@@ -105,6 +123,8 @@ public class Time {
             System.out.println(msg.toString());
         }
     
+
+
     public Estadio[] getVetorEstadio() {
             return vetorEstadio;
         }
@@ -118,8 +138,6 @@ public class Time {
        /* public int[] getVetGols() {
             return vetGols;
         }
-
-
         public void setVetGols(int[] vetGols) {
             this.vetGols = vetGols;
         }*/

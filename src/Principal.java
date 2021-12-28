@@ -1,7 +1,7 @@
 import java.text.ParseException;
 import java.util.Scanner;
 
-public class Principal {
+public class Principal{
     private Scanner scanner;
     private Processos processosSi;
 
@@ -88,7 +88,7 @@ public class Principal {
 
     public static void main(String[] args) throws Exception {
 
-        Principal principal = new Principal();
-        principal.iniciar();
+        Principal main = new Principal();
+        main.iniciar();
     }
 }

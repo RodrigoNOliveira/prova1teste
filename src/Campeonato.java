@@ -7,18 +7,23 @@ public class Campeonato {
     private int anoCamp;
     protected ArrayList<Partidas> listPartidas;
     protected ArrayList<PartidasJogadas> listJogadas;
+    protected ArrayList<Time> listTimes;
     private String vencedor;
     private Time tim;
     private int qtdGols = 0;
 
-    
     public Campeonato(String nome, int anoCamp) {
         this.qtdPtds = 0;
         this.nome = nome;
         this.anoCamp = anoCamp;
         this.listPartidas = new ArrayList<Partidas>();
         this.listJogadas = new ArrayList<PartidasJogadas>();
+        this.listTimes = new ArrayList<Time>();
 
+    }
+
+    public void addTime(Time tim) {
+        this.listTimes.add(tim);
     }
 
     public void addPtd(Partidas ptds) {
@@ -35,8 +40,7 @@ public class Campeonato {
         }
     }
 
-
-    public void addGols (int gols){
+    public void addGols(int gols) {
         qtdGols += tim.getQtdGols();
         this.tim.setQtdGols(qtdGols);
     }
@@ -49,14 +53,14 @@ public class Campeonato {
         for (int i = 0; i < listPartidas.size(); i++) {
             if (listPartidas.get(i) != null) {
                 msg.append(
-                        "\n" + listPartidas.get(i).getId() + " --------- " + listPartidas.get(i).getMandante() + " ---------------- " + listPartidas.get(i).getVisitante());
+                        "\n" + listPartidas.get(i).getId() + " --------- " + listPartidas.get(i).getMandante()
+                                + " ---------------- " + listPartidas.get(i).getVisitante());
             }
 
         }
         System.out.println(msg.toString());
     }
 
-    
     public void geraListaJogadas() {
         StringBuilder msg = new StringBuilder();
         msg.append("\n ------- Lista de partidas Jogadas --------\n");
@@ -66,10 +70,13 @@ public class Campeonato {
             if (listJogadas.get(i) != null) {
 
                 msg.append(
-                        "\n" + listJogadas.get(i).getMandante() + " -------- " + listJogadas.get(i).getGolsMandante() + " x "
-                                + listJogadas.get(i).getGolsVisitante() + " -------- " + listJogadas.get(i).getVisitante() 
-                                + " -------- " + listJogadas.get(i).getVencedor() + " -------- " + listPartidas.get(i).getEstJgd());
-                
+                        "\n" + listJogadas.get(i).getMandante() + " -------- " + listJogadas.get(i).getGolsMandante()
+                                + " x "
+                                + listJogadas.get(i).getGolsVisitante() + " -------- "
+                                + listJogadas.get(i).getVisitante()
+                                + " -------- " + listJogadas.get(i).getVencedor() + " -------- "
+                                + listPartidas.get(i).getEstJgd());
+
             }
 
         }
@@ -77,16 +84,33 @@ public class Campeonato {
     }
 
     public void geraListaClassificacao() {
+        int vit = 0;
+        int gls = 0;
         StringBuilder msg = new StringBuilder();
         msg.append("\n ----- Classificação -------\n");
         msg.append("\nCampeonato: " + this.nome + " - Ano de: " + this.anoCamp);
-        msg.append("\n\nMandante ------ Visitante\n\n");
-        for (int i = 0; i < listPartidas.size(); i++) {
-            if (listPartidas.get(i) != null) {
-                msg.append(
-                        "\n" + listPartidas.get(i).getMandante() + "----------" + listPartidas.get(i).getVisitante());
-            }
+        msg.append("\n\nTime ------- Vitorias ------- Gols Feitos\n\n");
+        for (int i = 0; i < this.listTimes.size(); i++) {
+            if (this.listTimes.get(i) != null) {
+                vit = 0;
+                gls = 0;
+                for (int j = 0; j < this.listTimes.get(i).listVtr.size(); j++) {
+                    if (this.listTimes.get(i).listVtr.get(j) != null) {
+                        vit = vit + this.listTimes.get(i).listVtr.get(j);
+                    }
+                }
+                for (int k = 0; k < this.listTimes.get(i).listGols.size(); k++) {
 
+                    if (this.listTimes.get(i).listGols.get(k) != null) {
+                        gls = gls + this.listTimes.get(i).listGols.get(k);
+                    }
+                }
+
+                msg.append(
+                        "\n" + this.listTimes.get(i).getNome() + " -------- " + vit + " --------- " + gls);
+                        vit = 0;
+                        gls = 0;
+            } 
         }
         System.out.println(msg.toString());
     }

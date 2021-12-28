@@ -32,7 +32,6 @@ public class Estadio {
     public Time getTim() {
         return tim;
     }
-
     
     public void setTim(Time tim) {
         this.tim = tim;

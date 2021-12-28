@@ -3,15 +3,24 @@ public class Partidas {
     private String visitante;
     private int id;
     private String estJgd;
-    //private Time tim;
+    private Time tim;
 
 
+
+    public Time getTim() {
+        return tim;
+    }
+
+    public void setTim(Time tim) {
+        this.tim = tim;
+    }
 
     public Partidas( int id, String mandante, String visitante, String estJgd ) {
         this.id = id;
         this.mandante = mandante;
         this.visitante = visitante;
         this.estJgd = estJgd;
+         
     }
   
     /*public void estdJgds(){

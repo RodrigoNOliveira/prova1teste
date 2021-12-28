@@ -4,6 +4,7 @@ public class PartidasJogadas {
     private int golsMandante;
     private int golsVisitante;
     private String vencedor;
+    protected Partidas ptds;
     //private Estadio estadio;
 
     public PartidasJogadas(String mandante, String visitante, int golsMandante, int golsVisitante, String vencedor) {
